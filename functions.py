@@ -5,9 +5,10 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains.question_answering import load_qa_chain
 from langchain.vectorstores import FAISS
-from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
 import os
-from langchain_community.llms import Ollama
+from dotenv import load_dotenv
+
 
 
 def show_pdf(pdf):
@@ -32,34 +33,53 @@ def text_preproccesing(text):
                     order to create a Knowledge base
     """
     # splitting the data 
-    with st.spinner("🤖 preproccessing the pdf file..."):
-        text_splitter = CharacterTextSplitter(
-            separator="\n",
-            chunk_size=1000,
-            chunk_overlap=200 ,
-            length_function=len
-        )
-        chunks = text_splitter.split_text(text)
+    if text is not None :
+        with st.spinner("🤖 preproccessing the pdf file..."):
+            text_splitter = CharacterTextSplitter(
+                separator="\n",
+                chunk_size=1000,
+                chunk_overlap=200 ,
+                length_function=len
+            )
+            chunks = text_splitter.split_text(text)
 
-        # embedding the chunks
-        model_name = "sentence-transformers/all-MiniLM-L6-v2"
-        embedder = HuggingFaceEmbeddings(model_name=model_name)
-        Knowledge_base = FAISS.from_texts(chunks,embedder)
-    st.success("✅ the pdf is ready for chatting ")
+            # embedding the chunks
+            model_name = "sentence-transformers/all-MiniLM-L6-v2"
+            embedder = HuggingFaceEmbeddings(model_name=model_name)
+            Knowledge_base = FAISS.from_texts(chunks,embedder)
+        st.toast("✅ The PDF is ready for chatting!", icon="🤖")
+    return Knowledge_base
 
-    
+
+
+
+
+def getting_answer(Knowledge_base,user_question):
+    """
+    this function initializes the LLm and finds the chunks relvent to the query 
+    to finally generate the answer
+    """
     # Initialize LLM 
-    llm = Ollama(model="mistral") 
+    # getiing the api key
+    load_dotenv()
+    api_key = os.getenv("GEMINI_API_KEY")
+    llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=api_key,
+    temperature=0.2
+    )
+
     chain = load_qa_chain(llm,chain_type='stuff')
     # asking the question 
-    user_question = st.text_input("ask a question about ur pdf")
-
-    if user_question:
+    #printing the response
+    if  len(user_question) > 10:
         with st.spinner("🤖 Generating answer..."):
             doc = Knowledge_base.similarity_search(user_question,k=3)
             response = chain.run(input_documents=doc,question=user_question)
-        st.success("✅ Answer generated")
+        st.toast("✅ Answer generated")
         st.text_area("Answer", value=response, height=250)
+    else :
+        st.error('please ask a complete question!!')
 
 
 
