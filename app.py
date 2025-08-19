@@ -28,25 +28,53 @@ def main():
     """,
     unsafe_allow_html=True
 )
+    st.markdown("""
+    <div style="
+        background-color:#4B9CD3; 
+        padding:30px 20px; 
+        border-radius:12px; 
+        text-align:center; 
+        color:white;
+        box-shadow: 1px 1px 10px rgba(0,0,0,0.15);
+        font-family: 'Poppins', sans-serif;
+        ">
+        <h1 style="font-size:60px; margin-bottom:5px;">PDF Chat Master</h1>
+        <p style="font-size:20px; margin-top:0;">The era of talking with your PDFs</p>
+    </div>
+    """, unsafe_allow_html=True)
 
+    # margin
+    st.markdown("<div style='margin-top: 40px;'></div>", unsafe_allow_html=True)
+    # Create 4 horizontal boxes using columns
+    col1, col2, col3 = st.columns(3)
 
-    st.title("CHAT WITH YOR PDF")
-    with st.container():
-        st.markdown("""
-    ####  How to Use the App  
+    box_style = """
+            <div style="
+                background-color:#f5f7fa;
+                padding:15px 10px;
+                border-radius:10px;
+                text-align:center;
+                box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+                margin:5px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 22px;
+                font-weight: 600;
+                line-height: 1.5;
+                ">
+                {}
+            </div>
+    """
 
-    > 🟦 **Step 1: Upload**  
-    > Upload your file or paste your text into the app.  
+    with col1:
+        st.markdown(box_style.format("🟦<br><b>Step 1</b><br>Upload File"), unsafe_allow_html=True)
 
-    > 🟩 **Step 2: Processing**  
-    > The app automatically analyzes and processes your input.  
+    with col2:
+        st.markdown(box_style.format("🟩<br><b>Step 2</b><br>Processing"), unsafe_allow_html=True)
 
-    > 🟨 **Step 3: Explore**  
-    > Ask questions, view insights, or generate visualizations.  
+    with col3:
+        st.markdown(box_style.format("🟨<br><b>Step 3</b><br>Explore your PDF"), unsafe_allow_html=True)
 
-    > 🟪 **Step 4: Save / Export**  
-    > Download the results or save them for later use.  
-    """)
+    st.markdown("<div style='margin-top: 40px;'></div>", unsafe_allow_html=True)
 
     with stylable_container(
         key="hero-section",
@@ -66,20 +94,20 @@ def main():
             }
         """
     ):
-        st.write("🚀 Chat with Your PDFs 📄")
-    st.divider()
+        pass
+
     with st.expander(label="Rag Application Pipeline ⚙️"):
         st.image("Rag_pipeline.jpg", use_container_width=True,caption='RAG Pipline')
-    col1,col2 = st.columns(2)
+    col_1,col_2 = st.columns(2)
     
     #uploading and showing the file 
-    with col1:
+    with col_1:
         pdf = st.file_uploader(label="appload you pdf",type="pdf")
         if pdf is not None:
             show_pdf(pdf)
 
     # extracting the pdf text 
-    with col2 :
+    with col_2 :
         if pdf is not None:
             text = get_text(pdf)
             if "knowledge_base" not in st.session_state:
