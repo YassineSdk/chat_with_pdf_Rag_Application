@@ -1,11 +1,12 @@
-langchain>=0.3.27,<0.4
-langchain_community>=0.3.27,<0.4
-langchain_google_genai>=2.1.9,<3.0
-PyPDF2>=3.0.1,<4.0
-python-dotenv>=1.1.1,<2.0
-streamlit>=1.48.1,<2.0
-langchain-huggingface>=0.0.3,<0.1
-sentence-transformers>=2.2.2,<3.0
-faiss-cpu>=1.7.4,<2.0
+langchain==0.3.27
+langchain_community==0.3.27
+langchain_google_genai==2.1.9
+langchain-huggingface>=0.1.0  # upgrade to match 0.3.x core
+PyPDF2==3.0.1
+python-dotenv==1.1.1
+streamlit==1.48.1
+sentence-transformers==2.2.2
+faiss-cpu==1.7.4
+
 
 
