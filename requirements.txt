@@ -1,12 +1,13 @@
 langchain==0.3.27
 langchain_community==0.3.27
 langchain_google_genai==2.1.9
-langchain-huggingface>=0.1.0  # upgrade to match 0.3.x core
+langchain-huggingface>=0.1.0
 PyPDF2==3.0.1
 python-dotenv==1.1.1
 streamlit==1.48.1
 sentence-transformers==2.2.2
-faiss-cpu==1.7.4
+faiss-cpu==1.8.0.post1   # ✅ fixed build issue
+
 
 
 
