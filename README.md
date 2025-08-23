@@ -6,6 +6,7 @@ This application uses **Retrieval-Augmented Generation (RAG)** to let you upload
 ![App Screenshot](Rag_pipeline.jpg)
 
 ---
+### feel free to test the application : ``https://huggingface.co/spaces/dudeawsome0me/Rag_app_Chat_pdf``
 
 ## 🚀 Features  
 - 📝 Upload any PDF and view it directly in the app  
